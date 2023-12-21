@@ -49,8 +49,7 @@ def post_amenity():
         abort(400, "Missing name")
 
     amenity = Amenity(**body)
-    storage.new(amenity)
-    storage.save()
+    amenity.save()
 
     return jsonify(amenity.to_dict()), 201
 
