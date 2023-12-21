@@ -40,15 +40,17 @@ def delete_state(state_id):
 
 @app_views.route("/states", methods=["POST"])
 def create_state():
+    """Create state"""
     request_htpp = request.get_json()
 
     if request_htpp is None:
-        return "Not a JSON\n", 400
-    if 'name' not in request_htpp:
-        return "Missing name\n", 400
-    new_state = State(**request_htpp)
-    storage.new(new_state)
-    storage.save()
+        abort(400, "Not a JSON")
+    if "name" not in request_htpp:
+        abort(400, "Missing name")
+    else:
+        new_state = State(**request_htpp)
+        storage.new(new_state)
+        storage.save()
 
     return jsonify(new_state.to_dict()), 201
 
