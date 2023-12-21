@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""""""
+"""State"""
 from api.v1.views import app_views
 from flask import abort, jsonify, request
 from models import storage
@@ -9,7 +9,7 @@ from models.state import State
 @app_views.route('/states', methods=['GET'])
 def get_states():
     States = storage.all(State)
-    dict_json = {}
+    dict_json = []
     for state in States.values():
         dict_json.append(state.to_dict())
     return jsonify(dict_json)
@@ -31,9 +31,9 @@ def delete_state(state_id):
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
-
-    storage.delete(state)
-    storage.save()
+    else:
+        storage.delete(state)
+        storage.save()
 
     return jsonify({}), 200
 
